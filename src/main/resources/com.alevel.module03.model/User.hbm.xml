@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="com.alevel.module03.model.User" table="users">
+        <id name="userID" column="user_id">
+            <generator class="identity"/>
+        </id>
+        <property name="fullName" column="full_name"/>
+        <property name="login" column="login"/>
+        <property name="email" column="email"/>
+        <property name="age" column="age"/>
+        <property name="isAuthor" column="is_author"/>
+        <property name="isModerator" column="is_moderator"/>
+
+
+    </class>
+</hibernate-mapping>

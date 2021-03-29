@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="com.alevel.module03.model.Post" table="posts">
+        <id name="id" column="post_id">
+            <generator class="identity"/>
+        </id>
+        <property name="title" column="title"/>
+        <property name="content" column="content"/>
+        <many-to-one name="author" column="author"
+                     class="com.alevel.module03.model.User"
+                     cascade="save-update"/>
+<many-to-one name="moderator" column="moderator"
+             class="com.alevel.module03.model.User"
+             cascade="save-update"/>
+
+
+        <property name="rating" column="rating"/>
+        <property name="status" column="status"/>
+
+    </class>
+</hibernate-mapping>
