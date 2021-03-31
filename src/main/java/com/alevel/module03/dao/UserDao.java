@@ -10,33 +10,55 @@ public class UserDao {
 
     private SessionFactory sessionFactory = HibernateSessionUtil.getSessionFactory();
 
-    public void createProduct(User user) {
-        try (Session session = sessionFactory.openSession();) {
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
+    public void createUser(User user) {
+        if(user.getAge() >= 18 && user.getEmail().contains("@")) {
+            try (Session session = sessionFactory.openSession();) {
+                session.beginTransaction();
+                session.save(user);
+                session.getTransaction().commit();
+            }
         }
     }
 
     public User findById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            User user = session.get(User.class, id);
-            if (user != null) {
-            }
+            session.beginTransaction();
+            Query query = session.createQuery("  FROM  User where id =: userId");
+            query.setParameter("userId", id);
+            User user = (User) query.getSingleResult();
+            session.getTransaction().commit();
             return user;
         }
     }
-    public void updateUser(int id) {
+
+    public void updateUser(User user, int id) {
         try (Session session = sessionFactory.openSession()){
             session.beginTransaction();
-            User user = session.get(User.class, id);
-           Query<User> query = session.createQuery("UPDATE users " +
-                   "SET full_name = ?, login = ?, email = ?, age = ?, is_author = ?, is_moderator = ?" +
-                   "WHERE user_id = ?;");
-            query.setParameter("newAge", user.getAge() + 1);
-            query.setParameter("id", id);
-            query.executeUpdate();
+           Query query = session.createQuery("UPDATE users " +
+                   "SET full_name =: full_name, " +
+                           "login =: login, " +
+                           "email =: email, " +
+                           "age =: age, " +
+                           "is_author =: is_author, " +
+                           "is_moderator =: is_moderator, " +
+                           "WHERE user_id =: id" +
+                           ");") ;
+            query.setParameter("full_name", user.getFullName());
+            ;
+            query.setParameter("login", user.getLogin());
+            ;
+            query.setParameter("email", user.getEmail());
+            ;
+            query.setParameter("age", user.getAge());
+            ;
+            query.setParameter("is_author", user.getAuthor());
+            ;
+            query.setParameter("is_moderator", user.getModerator());
+            ;
+            query.setParameter("userId", id);
+            int rows = query.executeUpdate();
             session.getTransaction().commit();
+
         }
     }
 

@@ -1,24 +1,50 @@
 package com.alevel.module03.model;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+@Entity
+@Table(name = "users")
 public class User {
     //уникальный идентификатор
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
+    @Column(name = "full_name")
     private String fullName;
     //должен быть уникальным, не null
+    @Column(name = "login")
     private String login;
     //должен быть уникальным и содержать символ '@'
+    @Column(name = "email")
     private String email;
     //не меньше 18
+    @Column(name = "age")
     private int age;
     //подписки
-    private List<User> subscriptions;
+
+    private List<User> subscriptions = new ArrayList<>();
     //является ли данный пользователь автором (у пользователя должно быть 1 или более публикаций)
+    @Column(name = "is_author")
     private Boolean isAuthor;
     //может ли пользователь модерировать статьи
+    @Column(name = "is_moderator")
     private Boolean isModerator;
     //0 если пользователь не "автор"
     private List<User> followers;
+
+    public User() {
+
+    }
+
+    public User(int userID, String fullName, String login, String email, int age) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.login = login;
+        this.email = email;
+        this.age = age;
+    }
 
     public int getId() {
         return userID;
